@@ -42,5 +42,5 @@ def web(message):
     webbrowser.open('https://www.youtube.com')
 
 
-bot.polling(non_stop=True)
+bot.infinity_polling()
 
