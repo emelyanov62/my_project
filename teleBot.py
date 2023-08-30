@@ -1,46 +1,27 @@
 import telebot
-import webbrowser
-import openpyxl
+from telebot import types  # модуль кнопки
 
-# Создаем новую рабочую книгу для Excel
-wb = openpyxl.Workbook()
-# токен бота
 bot = telebot.TeleBot('6616772242:AAHtXz3fkjOtdze5mG7KxmoT6vucYZewzyw')
 
-# Выбираем активный лист (первый лист по умолчанию)
-sheet = wb.active
-sheet.title = "Финансы"
+# Обработка команды /start
+@bot.message_handler(commands=['start']) # дикоратор который принимает команды с чата
+def send_welcome(message):  # текст из чата
+    # Создание клавиатуры
+    keyboard = types.InlineKeyboardMarkup()  # кнопка под текстом
+    yes_button = types.InlineKeyboardButton(text='да', callback_data='yes')  # текст в кнопке
 
-# Заголовки таблицы
-sheet['A1'] = "Дата"
-sheet['B1'] = "Описание"
-sheet['C1'] = "Доходы"
-sheet['D1'] = "Расходы"
-
-
-# старт бота
-@bot.message_handler(commands=['start'])
-def start(message):
-    bot.send_message(message.chat.id, f'Привет, {message.from_user.first_name}, давай запишим твой бюджет ')
+    keyboard.add(yes_button) # добавляем кнопку
+    bot.send_message(chat_id=update.effective_chat.id, 'салют?', reply_markup = keyboard) # текст над кнопкой
 
 
-# доходы
-@bot.message_handler(commands=['income'])
-def income(message):
-    bot.send_message(message.chat.id, ('введи доход'))
-
-
-# расходы
-@bot.message_handler(commands=['expense'])
-def expense(message):
-    bot.send_message(message.chat.id, ('введи расход'))
-
-
-# выход
-@bot.message_handler(commands=['web'])
-def web(message):
-    webbrowser.open('https://www.youtube.com')
+@bot.callback_query_handler(lambda call: True) # дикоратор вызываться каждый раз, когда пользователь нажимает на кнопку или выполняет другие действия
+def ancwer(call): # функция обрабатывает кнопку
+    if call.data == 'yes': # data это кнопка
+        keyword = types.InlineKeyboardMarkup()
+        item_id = types.InlineKeyboardButton(text='мой id', callback_data='yes')
+        keyword.add(item_id)
+        bot.send_message(call.message.chat.id, 'нажмите подтвердить',
+                         reply_markup=keyword)
 
 
 bot.infinity_polling()
-
