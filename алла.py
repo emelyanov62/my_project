@@ -1,8 +1,10 @@
 import telebot
 from telebot import types
 import os
+import webbrowser
 
 bot = telebot.TeleBot('6616772242:AAHtXz3fkjOtdze5mG7KxmoT6vucYZewzyw')
+
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -40,21 +42,32 @@ def about_me(message):
 
         # Получаем список файлов в папке
         photo_files = [f for f in os.listdir(photo_folder) if os.path.isfile(os.path.join(photo_folder, f))]
+        media_group = [types.InputMediaPhoto(open(os.path.join(photo_folder, photo_file), 'rb')) for photo_file in
+                       photo_files]
 
-        # Отправляем все фотографии из папки
-        for photo_file in photo_files:
-            photo_path = os.path.join(photo_folder, photo_file)
-            with open(photo_path, 'rb') as photo:
-                bot.send_photo(message.message.chat.id, photo)
+        # Отправляем альбом фотографий
+        bot.send_media_group(message.message.chat.id, media_group)
 
-        button = types.InlineKeyboardMarkup()
-        yes = types.InlineKeyboardButton(text='да', callback_data='yes')  # обо мне
-        no = types.InlineKeyboardButton(text='нет', callback_data='ho')
+        but = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        prise = types.KeyboardButton(text = 'prise')
+        web = types.KeyboardButton(text = 'связь с продавцом')
+        social_network = types.KeyboardButton(text = 'social_network')
+        but.add(prise, web)
+        but.add(social_network)
 
-        button.add(yes, no)
         user_name = message.from_user.first_name
-        bot.send_message(message.message.chat.id, f'ну как ксю? ништяк?))',
-                         reply_markup=button)
+        bot.send_message(message.message.chat.id, f'{user_name}, узнайте цены, или свяжитесь с продавцом',
+                         reply_markup=but)
+        bot.send_message(message.message.chat.id, 'а так же подписывайтесь на соц.сети',
+                         reply_markup=but)
+
+@bot.message_handler(func=lambda message: message.text == 'social_network')
+def send_price(message):
+    webbrowser.open('https://vk.com/tm__touch_moments')
+
+@bot.message_handler(func=lambda message: message.text == 'prise')
+def send_price(message):
+    webbrowser.open('https://vk.com/market-211836276?screen=group')
 
 
 bot.infinity_polling()

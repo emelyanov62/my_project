@@ -1,6 +1,5 @@
 import telebot
 from telebot import types
-import webbrowser
 
 bot = telebot.TeleBot('6616772242:AAHtXz3fkjOtdze5mG7KxmoT6vucYZewzyw')
 
