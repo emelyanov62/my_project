@@ -37,13 +37,91 @@ def menu(message):
                      reply_markup=menu)
 
 
-#  ассортимент и поиск
+#  ассортимент
 @bot.message_handler(func=lambda message: message.text == 'пеленки')  # пеленки
 def menu(message):
+    conn = sqlite3.connect('my_store.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM products WHERE name = "пеленка"')  # Выполняем SQL-запрос для извлечения данных о пеленках
+    diapers = cursor.fetchall()  # Получаем результаты запроса
+    conn.close()  # Закрываем соединение
 
+    if diapers:  # Отправляем информацию о пеленках в чат
+        for diaper in diapers:
+            product_id, product_name, product_description, product_price, product_quantity, product_image = diaper
+            bot.send_photo(message.chat.id, product_image)  # Здесь product_image должно быть изображением в нужном формате.
+            button = types.InlineKeyboardMarkup()
+            catalog = types.InlineKeyboardButton(text='Добавить в корзину', callback_data='catalog')
+            button.add(catalog)
+            product_id, product_name, product_description, product_price, product_quantity, product_image = diaper
+            bot.send_message(message.chat.id, f"Название: {product_name}\nОписание: {product_description}\n"
+                                                f"Цена: {product_price} руб.\nКоличество в наличии: {product_quantity}",
+                             reply_markup=button)
+
+    else:
+        bot.send_message(message.chat.id, "Извините, товары 'пеленки' не найдены.")
+
+
+user_cart = {}  # Словарь для хранения корзины пользователя. название, количество, фото.
 
 
 #  Корзина
+@bot.callback_query_handler(lambda message: True)
+def add_to_cart(message):
+    if message.data == 'catalog':
+    # Здесь вы можете предоставить пользователю список товаров и попросить его выбрать товар для добавления
+    # Например, путем отображения клавиатуры с вариантами товаров и их описаниями
+    # После выбора пользователем товара, вы можете получить его ID и количество
+        menu = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        diaper = types.KeyboardButton('корзина')
+        blankets = types.KeyboardButton('пледы')
+        bib = types.KeyboardButton('нагрудники')
+        menu.add(diaper)
+        menu.add(blankets, bib)
+    # Загружаем изображение из базы данных
+        conn = sqlite3.connect('my_store.db')
+        cursor = conn.cursor()
+        cursor.execute('SELECT image FROM products WHERE id = 3')
+        image_data = cursor.fetchone()
+
+        # Проверяем, что изображение найдено
+        if image_data:
+            # Отправляем изображение как фото
+            bot.send_photo(message.chat.id, photo=image_data[0])
+            product_id = 1  # ID выбранного товара (ваше значение)
+            product_name = "Пеленка"  # Имя выбранного товара (ваше значение)
+            product_image = "image_data"  # URL изображения товара (ваше значение)
+            quantity = 1  # Количество выбранного товара (ваше значение)
+
+        # Добавляем товар в корзину пользователя
+        if product_id in user_cart:
+            user_cart[product_id]['quantity'] += quantity
+        else:
+            user_cart[product_id] = {
+                'name': product_name,
+                'image': product_image,
+                'quantity': quantity
+            }
+
+        bot.send_message(message.message.chat.id, f"Товар добавлен в корзину.",
+                         reply_markup=menu)
 
 
+# Обработчик для просмотра корзины
+@bot.message_handler(func=lambda message: message.text == 'корзина')
+def view_cart(message):
+    if not user_cart:
+        bot.send_message(message.chat.id, "Ваша корзина пока пуста.")
+    else:
+        for product_id, product_info in user_cart.items():
+            name = product_info['name']
+            image = product_info['image']
+            quantity = product_info['quantity']
+
+            bot.send_message(message.chat.id, f"Название: {name}\nКоличество: {quantity}")
+            bot.send_photo(message.chat.id, image)
+
+# Другие обработчики для удаления товаров из корзины, оформления заказа и др. можно добавить аналогично.
+
+# Запуск бота
 bot.infinity_polling()
