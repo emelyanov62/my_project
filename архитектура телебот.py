@@ -78,20 +78,7 @@ def add_to_cart(message):
         bib = types.KeyboardButton('нагрудники')
         menu.add(diaper)
         menu.add(blankets, bib)
-    # Загружаем изображение из базы данных
-        conn = sqlite3.connect('my_store.db')
-        cursor = conn.cursor()
-        cursor.execute('SELECT image FROM products WHERE id = 3')
-        image_data = cursor.fetchone()
 
-        # Проверяем, что изображение найдено
-        if image_data:
-            # Отправляем изображение как фото
-            bot.send_photo(message.chat.id, photo=image_data[0])
-            product_id = 1  # ID выбранного товара (ваше значение)
-            product_name = "Пеленка"  # Имя выбранного товара (ваше значение)
-            product_image = "image_data"  # URL изображения товара (ваше значение)
-            quantity = 1  # Количество выбранного товара (ваше значение)
 
         # Добавляем товар в корзину пользователя
         if product_id in user_cart:
