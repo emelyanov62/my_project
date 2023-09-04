@@ -1,9 +1,9 @@
 import telebot
 from telebot import types  #  кнопка
-import yadisk  # ссылки на диск
+import sqlite3
 
 bot = telebot.TeleBot('6297727546:AAE65ZEpHy5Of4RYacKOiv1if8qclhXaZuk')
-yandex_disk = yadisk.YaDisk(token='y0_AgAAAABZVEkRAApvDAAAAADrupX-FWQpg2UCQ1Go2XgmQGpqkQwrXoY')
+
 
 #  Приветственное сообщение
 @bot.message_handler(commands = ['start'])
@@ -40,14 +40,6 @@ def menu(message):
 #  ассортимент и поиск
 @bot.message_handler(func=lambda message: message.text == 'пеленки')  # пеленки
 def menu(message):
-    folder_path = '/path/to/your/алла/'
-
-    # Список файлов в указанной папке
-    yandex_file_path = yandex_disk.listdir(folder_path)
-
-    # Скачиваем файл с Яндекс.Диска
-    with yandex_disk.download(yandex_file_path) as f:
-        bot.send_photo(message.chat.id, f)
 
 
 
