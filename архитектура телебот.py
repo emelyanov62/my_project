@@ -40,7 +40,7 @@ def menu(message):
 #  ассортимент
 @bot.message_handler(func=lambda message: message.text == 'пеленки')  # пеленки
 def menu(message):
-    conn = sqlite3.connect('my_store.db')
+    conn = sqlite3.connect('diaper.db')
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM products WHERE name = "пеленка"')  # Выполняем SQL-запрос для извлечения данных о пеленках
     diapers = cursor.fetchall()  # Получаем результаты запроса
@@ -69,9 +69,9 @@ user_cart = {}  # Словарь для хранения корзины поль
 @bot.callback_query_handler(lambda message: True)
 def add_to_cart(message):
     if message.data == 'catalog':
-    # Здесь вы можете предоставить пользователю список товаров и попросить его выбрать товар для добавления
-    # Например, путем отображения клавиатуры с вариантами товаров и их описаниями
-    # После выбора пользователем товара, вы можете получить его ID и количество
+        # Здесь вы можете предоставить пользователю список товаров и попросить его выбрать товар для добавления
+        # Например, путем отображения клавиатуры с вариантами товаров и их описаниями
+        # После выбора пользователем товара, вы можете получить его ID и количество
         menu = types.ReplyKeyboardMarkup(resize_keyboard=True)
         diaper = types.KeyboardButton('корзина')
         blankets = types.KeyboardButton('пледы')
@@ -79,6 +79,9 @@ def add_to_cart(message):
         menu.add(diaper)
         menu.add(blankets, bib)
 
+        product_id = 1  # ID выбранного товара (ваше значение)
+        quantity = 1
+        product_name = "Пеленка"
 
         # Добавляем товар в корзину пользователя
         if product_id in user_cart:
@@ -86,7 +89,7 @@ def add_to_cart(message):
         else:
             user_cart[product_id] = {
                 'name': product_name,
-                'image': product_image,
+                #'image': product_image,
                 'quantity': quantity
             }
 
@@ -102,11 +105,11 @@ def view_cart(message):
     else:
         for product_id, product_info in user_cart.items():
             name = product_info['name']
-            image = product_info['image']
+            #image = product_info['image']
             quantity = product_info['quantity']
 
             bot.send_message(message.chat.id, f"Название: {name}\nКоличество: {quantity}")
-            bot.send_photo(message.chat.id, image)
+            #bot.send_photo(message.chat.id, image)
 
 # Другие обработчики для удаления товаров из корзины, оформления заказа и др. можно добавить аналогично.
 

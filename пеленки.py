@@ -1,7 +1,7 @@
 import sqlite3
 
 # Создаем базу данных и таблицу для товаров
-conn = sqlite3.connect('my_store.db')
+conn = sqlite3.connect('diaper.db')
 cursor = conn.cursor()
 
 cursor.execute('''
@@ -35,7 +35,13 @@ def update_product_quantity(product_id, new_quantity):
     conn.commit()
 
 # Пример добавления товара
-add_product('пеленка', 'пеленка мишка', 19.99, 100, 'C:\\Users\\User\\Desktop\\photo.jpg')
+add_product('пеленка', 'пелёнка мишка', 700, 20, 'C:\\Users\\User\\Desktop\\photo.jpg')
+add_product('пеленка', 'пелёнка заяц', 700, 20, 'C:\\Users\\User\\Desktop\\photo1.jpg')
+add_product('пеленка', 'пелёнка розовая', 650, 20, 'C:\\Users\\User\\Desktop\\photo2.jpg')
+add_product('пеленка', 'пелёнка коричневая', 650, 20, 'C:\\Users\\User\\Desktop\\photo3.jpg')
+add_product('пеленка', 'пелёнка зеленая', 650, 20, 'C:\\Users\\User\\Desktop\\photo4.jpg')
+add_product('пеленка', 'пелёнка зеленая', 700, 20, 'C:\\Users\\User\\Desktop\\photo5.jpg')
+add_product('пеленка', 'пелёнка зеленая', 650, 20, 'C:\\Users\\User\\Desktop\\photo6.jpg')
 
 # Пример обновления количества товара
 #update_product_quantity(1, 150)
@@ -45,7 +51,7 @@ conn.close()
 
 
 # Создаем соединение с базой данных
-conn = sqlite3.connect('my_store.db')
+conn = sqlite3.connect('diaper.db')
 cursor = conn.cursor()
 
 # Выполняем SQL-запрос для извлечения данных
