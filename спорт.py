@@ -7,7 +7,7 @@ import time
 TOKEN = '6449664194:AAGlEy8HzzRX2_dvcU_u-WJpDSLJ5gfQsWQ'
 
 # Идентификатор чата, куда будут отправляться новости
-CHAT_ID = 'YOUR_CHAT_ID'
+CHAT_ID = '6688470974'
 
 # URL новостного сайта для скрапинга
 NEWS_URL = 'https://example.com/news'
@@ -31,5 +31,4 @@ def scrape_news():
 while True:
     scrape_news()
     time.sleep(3600)  # Проверять новости каждый час
-
 
