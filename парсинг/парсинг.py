@@ -4,6 +4,7 @@ import time
 
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
                          'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36'}  # изменяем данные для отправки
+lis = []
 
 for count in range(1, 8):  # парсим все 7 страниц
     time.sleep(5)  # задержка чтоб не блокировали
@@ -17,6 +18,7 @@ for count in range(1, 8):  # парсим все 7 страниц
         name1 = counter.find('h5').text  # обращаемся к тегам в этом классе
         im = 'https://scrapingclub.com' + counter.find('img', class_='card-img-top img-fluid').get(
             'src')  # получаем картинку из этого класса,
+
 
         print(name + '\n' + name1 + '\n' + im)
 
