@@ -21,12 +21,13 @@ def get():
 # код начинается с for далее вызывается функция get в нем получаем ссылку card и далее ее обрабатываем
 for lis in get():  # вызов функции get
     responc = requests.get(lis, headers=headers)  # получаем данные с сайта
-    time.sleep(4)
+    #time.sleep(3)
     soup = BeautifulSoup(responc.text, 'lxml')  # обрабатываем данные
-    da = soup.find('div', class_='my-8 w-full rounded border').text  # обращаемся с определенному классу
-    name = soup.find('h3').text  # обращаемся к тегам в этом классе
-    name1 = soup.find('h4').text  # обращаемся к тегам в этом классе
-    imege = 'https://scrapingclub.com' + soup.find('img', class_='card-img-top').get('src')  #  получаем картинку из этого класса
-                                                                                             # обязательно подставляем ссылку на сайт
+    #da = soup.find('div', class_='my-8 w-full rounded border').text  # обращаемся с определенному классу
+    op = soup.find('p', class_='card-description').text
+    name = soup.find('h3').text # обращаемся к тегам в этом классе
+    name1 = soup.find('h4').text # обращаемся к тегам в этом классе
+    image = 'https://scrapingclub.com' + soup.find('img', class_='card-img-top').get('src')  #  получаем картинку из этого класса
 
-    print(name + '\n' + name1 + '\n' + imege + '\n')
+    #print(image)                                                                                    # обязательно подставляем ссылку на сайт
+    print(image + '\n' + name + '\n' + name1 + '/n' + op + '/n')
