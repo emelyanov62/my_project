@@ -15,3 +15,4 @@ while True:
     message_text = "Это ваше периодическое сообщение каждые 10 секунд."
     send_message(message_text) # вызов функции send_message
     time.sleep(10)
+
