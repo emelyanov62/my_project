@@ -8,7 +8,7 @@ def writer(parametr):
     column = 0
 
     page.set_column('A:A', 20)
-    page.set_column('B:B', 20)
+    page.set_column('B:B', 10)
     page.set_column('C:C', 50)
     page.set_column('D:D', 50)
 
@@ -20,5 +20,5 @@ def writer(parametr):
         row += 1
         print(row)
     book.close()
-    print('sd')
+    print('готово')
 writer(arrey())
