@@ -1,7 +1,7 @@
 import xlsxwriter
 from парсинг2 import arrey
 def writer(parametr):
-    book = xlsxwriter.Workbook(r'C:\\Users\\User\\Desktop\\данные.xlsx')
+    book = xlsxwriter.Workbook(r'C:\\Users\\User\\Desktop\\сайт.xlsx')
     page = book.add_worksheet('товар')
 
     row = 0
