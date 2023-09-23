@@ -27,6 +27,22 @@ def start(start):
     responc = requests.get(ne, headers=headers)
     soup = BeautifulSoup(responc.text, 'lxml')
     data = soup.find('li', class_='play')['data-url']
-    bot.send_message(start.chat.id, data)
+    #bot.send_message(start.chat.id, data)
+    #print(data)if response.status_code == 200:
+    # Определите имя файла, например, из заголовка Content-Disposition (если доступно)
+    content_disposition = responc.headers.get('Content-Disposition')
+    if content_disposition:
+        filename = content_disposition.split('filename=')[1]
+    else:
+        # В противном случае, используйте имя файла из URL
+        filename = ne.split('/')[-1]
 
+    # Сохраните аудиофайл на диск
+    with open(filename, 'wb') as audio_file:
+        audio_file.write(responc.content)
+        # Отправьте аудиофайл боту
+        with open(filename, 'rb') as audio:
+            bot.send_audio(start.chat.id, audio=audio, caption='Аудиофайл')
+
+    print(f"Аудиофайл {filename} успешно загружен.")
 bot.infinity_polling()
