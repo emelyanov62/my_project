@@ -17,15 +17,31 @@ def find_music_info(start):
                       ' AppleWebKit/537.36 (KHTML, like Gecko) '
                       'Chrome/116.0.0.0 Safari/537.36'}
     query = start.text
-    url = f'https://www.last.fm/search/tracks?q={query}'
+    url = f'https://wwv.zvuch.com/artists/{query}'
     recponse = requests.get(url, headers=headers)
     soup = BeautifulSoup(recponse.text, 'lxml')
-    data = soup.find('tr', class_='chartlist-row chartlist-row--with-artist chartlist-row--with-buylinks js-focus-controls-container')
-    art = data.find('td', class_='chartlist-artist').text.strip()
-    aa = data.find('td', class_='chartlist-play')
-    youtube_link = aa.find('a', {'data-analytics-action': 'PlayTrackOnPage'})
-    song_url = youtube_link.get('href')
-    bot.send_message(start.chat.id, text = song_url)
+    data = soup.find('ul', class_='mainSongs unstyled songs songsListen favoriteConf ajaxContent')
+    if data:
+        art = data.find_all('li', class_='play')
+        num = 0
+        for count in art:
+            if num >= 5:
+                break
+            link = count.get('data-url')
+            response = requests.get(link)
+            bot.send_audio(start.chat.id, audio=response.content)
+            num +=1
+    else:
+        url = f'https://wwv.zvuch.com/tracks/{query}'
+        recponse = requests.get(url, headers=headers)
+        soup = BeautifulSoup(recponse.text, 'lxml')
+        data = soup.find('ul', class_='mainSongs unstyled songs songsListen favoriteConf')
+        art = data.find('li', class_='play')
+
+        link = art.get('data-url')
+        response = requests.get(link)
+        bot.send_audio(start.chat.id, audio=response.content)
+        print(link)
 
 
 bot.infinity_polling()

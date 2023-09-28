@@ -1,27 +1,24 @@
+import telebot
 import requests
 from bs4 import BeautifulSoup
-import telebot
+import random
 
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'
-                  ' AppleWebKit/537.36 (KHTML, like Gecko) '
-                  'Chrome/116.0.0.0 Safari/537.36'}
-name = input(':')
-url = f'https://www.last.fm/search/tracks?q={name}'
+url = f'https://wwv.zvuch.com/artists/korn'
+recponse = requests.get(url)
+soup = BeautifulSoup(recponse.text, 'lxml')
+data = soup.find('ul', class_='mainSongs unstyled songs songsListen favoriteConf ajaxContent')
+art = data.find_all('li', class_='play')
 
-response = requests.get(url, headers=headers)
-soup = BeautifulSoup(response.text, 'lxml')  # обрабатываем данные
-data = soup.find('tr', class_='chartlist-row chartlist-row--with-artist chartlist-row--with-buylinks js-focus-controls-container')
+sp = []
+if data:
+    art = data.find_all('li', class_='play')
+    for count in art:
+        link = count.get('data-url')
+        sp.append(link)
+        num = 0
+        if num >= 5:
+            break
+        response = requests.get(link)
+        bot.send_audio(start.chat.id, audio=response.content)
+        num += 1
 
-
-na = data.find('td', class_='chartlist-name').text.strip()
-art = data.find('td', class_='chartlist-artist').text.strip()
-img = data.find('img').get('src')
-time = data.find('td', class_='chartlist-duration').text.strip()
-aa = data.find('td', class_='chartlist-play')
-youtube_link = aa.find('a', {'data-analytics-action': 'PlayTrackOnPage'})
-song_url = youtube_link.get('href')
-print(art, '-', na)
-print(song_url)
-print(img + '\n' + time)
-print()
