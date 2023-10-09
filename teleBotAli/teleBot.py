@@ -1,8 +1,5 @@
 from telebot import types
-import sqlite3
 from my_token import tokens
-import tempfile
-
 
 bot = tokens()
 
