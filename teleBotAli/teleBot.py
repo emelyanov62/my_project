@@ -1,6 +1,8 @@
 from telebot import types
-from exelAli import exels
+import sqlite3
 from my_token import tokens
+import tempfile
+
 
 bot = tokens()
 
@@ -30,17 +32,15 @@ def start(star):
 # весь товар
 @bot.message_handler(func=lambda star: star.text == 'посмотреть все товары')
 def whole_rang(whole):
-    data = exels()
-    for product in data:
-        product_name, product_description, product_photo_url = product
-        types_whole_range = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        categories = types.KeyboardButton('посмотреть категории')
-        top = types.KeyboardButton('часто заказывают')
-        stock = types.KeyboardButton('акции и скидки')
-        types_whole_range.add(categories)
-        types_whole_range.add(top, stock)
-        bot.send_message(whole.chat.id, f'{product_name}\n{product_description}'
-                                        f'\n{product_photo_url}', reply_markup=types_whole_range)
+    types_whole_range = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    categories = types.KeyboardButton('посмотреть категории')
+    top = types.KeyboardButton('часто заказывают')
+    stock = types.KeyboardButton('акции и скидки')
+    types_whole_range.add(categories)
+    types_whole_range.add(top, stock)
+
+    # Отправляем клавиатуру с вариантами действий
+    bot.send_message(whole.chat.id, 'Выберите действие:', reply_markup=types_whole_range)
 
 
 #@bot.message_handler(func=lambda star: star.text == 'часто заказывают')
@@ -51,4 +51,4 @@ def whole_rang(whole):
 #def stok(stoc):
 
 bot.infinity_polling()
-whole_rang(exels())
+#whole_rang(gets())
