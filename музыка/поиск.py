@@ -6,15 +6,13 @@ headers = {
                   ' AppleWebKit/537.36 (KHTML, like Gecko) '
                   'Chrome/116.0.0.0 Safari/537.36'}
 #name = input(':')
-url = f'https://www.last.fm/search/tracks?q=макс корж'
+url = f'https://vk.com/audios350619743?block=new_songs&section=explore'
 
 response = requests.get(url, headers=headers)
 soup = BeautifulSoup(response.text, 'lxml')  # обрабатываем данные
-data = soup.find('tr', class_='chartlist-row chartlist-row--with-artist chartlist-row--with-buylinks js-focus-controls-container')
-youtube_link = data.find('a', {'data-analytics-action': 'PlayTrackOnPage'})
+data = soup.find_all('div', class_='audio_page__audio_rows _audio_page__audio_rows')
+#youtube_link = data.find('a', {'data-analytics-action': 'PlayTrackOnPage'})
 
 
-song_url = youtube_link('href')
-for count in song_url:
-    print(song_url.text.strip())
+print(data)
 
