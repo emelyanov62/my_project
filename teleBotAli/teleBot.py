@@ -3,49 +3,94 @@ from my_token import tokens
 
 bot = tokens()
 
+
 # начальный экран
-@bot.message_handler(commands= ['start'])
+@bot.message_handler(commands=['start'])
 def start(star):
     name = star.from_user.first_name
     type = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    categories = types.KeyboardButton('посмотреть категории')
-    whole_range = types.KeyboardButton('посмотреть все товары')
-    top = types.KeyboardButton('часто заказывают')
-    stock = types.KeyboardButton('акции и скидки')
-    type.add(categories, whole_range)
-    type.add(top, stock)
-    bot.send_message(star.chat.id, f"Привет, {name}! Здесь ты найдешь топовые товары"
-                                    f" с AliExpress по разным категориям, а "
-                                    f"также уникальные скидки и акции. "
-                                    f"Погрузись в мир эксклюзивных предложений и"
-                                    f" сделай свои покупки легче и удобнее!",
+    mothers_and_children = types.KeyboardButton('Для мам и детей')
+    home = types.KeyboardButton('Товары для дома')
+    stock = types.KeyboardButton('Большие акции и скидки')
+    type.add(mothers_and_children, home)
+    type.add(stock)
+    bot.send_message(star.chat.id, f'{name} Приветствуем тебя в мире эксклюзивных предложений на Яндекс.Маркете,'
+                                   f' где мы собрали для тебя лучшие товары для мам, детей и дома! '
+                                   f'🌟Здесь ты найдешь всё, что нужно для заботы о семье и создания уюта в доме.'
+                                   f' Наши уникальные скидки и акции сделают твои покупки легче и более выгодными.',
                                     reply_markup=type)
+    bot.send_message(star.chat.id, f'Выберите нужную категорию')
 
 
-#bot.message_handler(func=lambda star: star.text == 'посмотреть категории')
-#def categorie (categ):
+@bot.message_handler(func=lambda message: message.text == 'Главное меню')
+def return_to_main_menu(message):
+    type = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    mothers_and_children = types.KeyboardButton('Для мам и детей')
+    home = types.KeyboardButton('Товары для дома')
+    stock = types.KeyboardButton('Большие акции и скидки')
+    type.add(mothers_and_children, home)
+    type.add(stock)
+    bot.send_message(message.chat.id, f'Выберите нужную категорию', reply_markup=type)
 
 
-# весь товар
-@bot.message_handler(func=lambda star: star.text == 'посмотреть все товары')
-def whole_rang(whole):
-    types_whole_range = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    categories = types.KeyboardButton('посмотреть категории')
-    top = types.KeyboardButton('часто заказывают')
-    stock = types.KeyboardButton('акции и скидки')
-    types_whole_range.add(categories)
-    types_whole_range.add(top, stock)
-
-    # Отправляем клавиатуру с вариантами действий
-    bot.send_message(whole.chat.id, 'Выберите действие:', reply_markup=types_whole_range)
-
-
-#@bot.message_handler(func=lambda star: star.text == 'часто заказывают')
-#def top(topp):
+@bot.message_handler(func=lambda star: star.text == 'Для мам и детей')
+def mother_and_childre(categ):
+    type = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    mother = types.KeyboardButton('Посмотреть товары для мам')
+    children = types.KeyboardButton('Посмотреть товары для детей')
+    menu = types.KeyboardButton('Главное меню')
+    type.add(mother, children)
+    type.add(menu)
+    bot.send_message(categ.chat.id, f'Вы нахидитесь в категории '
+                                    f'Для мам и детей, какие товары хотите '
+                                    f'посмотреть?', reply_markup=type)
 
 
-#@bot.message_handler(func=lambda star: star.text == 'акции и скидки')
-#def stok(stoc):
+@bot.message_handler(func=lambda categ: categ.text == 'Посмотреть товары для мам')
+def product_mother(mothers):
+    type = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    back = types.KeyboardButton('Посмотреть товары для детей')
+    menu = types.KeyboardButton('Главное меню')
+    type.add(back)
+    type.add(menu)
+    bot.send_message(mothers.chat.id, 'Tовары для мам', reply_markup=type)
+
+
+@bot.message_handler(func=lambda categ: categ.text == 'Посмотреть товары для детей')
+def product_children(children):
+    type = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    back = types.KeyboardButton('Посмотреть товары для мам')
+    menu = types.KeyboardButton('Главное меню')
+    type.add(back)
+    type.add(menu)
+    bot.send_message(children.chat.id, 'Tовары для детей', reply_markup=type)
+
+
+
+
+@bot.message_handler(func=lambda star: star.text == 'Товары для дома')
+def home(homes):
+    type = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    mother = types.KeyboardButton('посуда')
+    children = types.KeyboardButton('декор для дома')
+    children = types.KeyboardButton('хранение в доме')
+    menu = types.KeyboardButton('Главное меню')
+    type.add(mother, children)
+    type.add(menu)
+    bot.send_message(homes.chat.id, f'Вы нахидитесь в категории '
+                                    f'Для мам и детей, какие товары хотите '
+                                    f'посмотреть?', reply_markup=type)
+
+
+@bot.message_handler(func=lambda categ: categ.text == '')
+def product_mother(mothers):
+    type = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    back = types.KeyboardButton('Посмотреть товары для детей')
+    menu = types.KeyboardButton('Главное меню')
+    type.add(back)
+    type.add(menu)
+    bot.send_message(mothers.chat.id, 'Tовары для мам', reply_markup=type)
+
 
 bot.infinity_polling()
-#whole_rang(gets())
+
