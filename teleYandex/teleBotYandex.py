@@ -1,12 +1,12 @@
 from telebot import types
-from m_token import tokens
-import requests
-from homes_decor import dishes
+from teleYandex.star_home_decor.m_token import tokens
+from teleYandex.star_home_decor.my_dishes import dishes
+from teleYandex.star_home_decor.textiles import textile
+from teleYandex.star_home_decor.decor_homes import home_in_decor
 
 bot = tokens()
 
 
-# начальный экран
 @bot.message_handler(commands=['start'])
 def start(star):
     name = star.from_user.first_name
@@ -37,19 +37,6 @@ def return_to_main_menu(message):
     bot.send_message(message.chat.id, f'Выберите нужную категорию', reply_markup=type)
 
 
-photo_path = 'C:\\Users\\User\\Desktop\\downloaded_photo.jpg'
-
-
-def download_photo(url):
-    response = requests.get(url)
-    if response.status_code == 200:
-        with open(photo_path, 'wb') as file:
-            file.write(response.content)
-        return True
-    else:
-        return False
-
-
 @bot.message_handler(func=lambda star: star.text == 'Домашний декор')
 def home_decor(decor):
     type = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -63,10 +50,62 @@ def home_decor(decor):
                                     f'Домашний декор, какие товары хотите '
                                     f'посмотреть?', reply_markup=type)
 
+
 @bot.message_handler(func=lambda categ: categ.text == 'Посуда')
-def handle_dishes(message):
+def dishes_statr(message):
     dishes(message)
 
 
-if __name__ == '__main__':
-    bot.polling(none_stop=True)
+@bot.message_handler(func=lambda categ: categ.text == 'Текстиль')
+def textile_start(message):
+    textile(message)
+
+
+@bot.message_handler(func=lambda categ: categ.text == 'Декор для дома')
+def home_decor_start(message):
+    home_in_decor(message)
+
+
+@bot.message_handler(func=lambda star: star.text == 'Мебель')
+def furniture(furnitur):
+    type = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    Living_room = types.KeyboardButton('Гостиная')
+    textile = types.KeyboardButton('Кухня')
+    menu = types.KeyboardButton('Главное меню')
+    type.add(dishes, textile)
+    type.add(menu)
+    bot.send_message(furnitur.chat.id, f'Вы нахидитесь в категории '
+                                    f'Мебель, какие товары хотите '
+                                    f'посмотреть?', reply_markup=type)
+
+
+
+@bot.message_handler(func=lambda star: star.text == 'Умный дом')
+def smart_house(smart_hous):
+    type = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    dishes = types.KeyboardButton('Посуда')
+    textile = types.KeyboardButton('Текстиль')
+    decor_home = types.KeyboardButton('Декор для дома')
+    menu = types.KeyboardButton('Главное меню')
+    type.add(dishes, textile)
+    type.add(decor_home, menu)
+    bot.send_message(smart_hous.chat.id, f'Вы нахидитесь в категории '
+                                    f'Умный дом, какие товары хотите '
+                                    f'посмотреть?', reply_markup=type)
+
+
+
+@bot.message_handler(func=lambda star: star.text == 'Электроника')
+def electronics(electronic):
+    type = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    dishes = types.KeyboardButton('Посуда')
+    textile = types.KeyboardButton('Текстиль')
+    decor_home = types.KeyboardButton('Декор для дома')
+    menu = types.KeyboardButton('Главное меню')
+    type.add(dishes, textile)
+    type.add(decor_home, menu)
+    bot.send_message(electronic.chat.id, f'Вы нахидитесь в категории '
+                                    f'Электроника, какие товары хотите '
+                                    f'посмотреть?', reply_markup=type)
+
+bot.polling(none_stop=True)
