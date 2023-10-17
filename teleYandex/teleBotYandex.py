@@ -1,10 +1,9 @@
 from telebot import types
-from my_token import token
-import openpyxl
+from m_token import tokens
 import requests
-import os
+from homes_decor import dishes
 
-bot = token()
+bot = tokens()
 
 
 # начальный экран
@@ -50,6 +49,7 @@ def download_photo(url):
     else:
         return False
 
+
 @bot.message_handler(func=lambda star: star.text == 'Домашний декор')
 def home_decor(decor):
     type = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -63,31 +63,10 @@ def home_decor(decor):
                                     f'Домашний декор, какие товары хотите '
                                     f'посмотреть?', reply_markup=type)
 
-
 @bot.message_handler(func=lambda categ: categ.text == 'Посуда')
-def dishes(dishe):
-    global photo, description, urls
-    wb = openpyxl.load_workbook('C:\\Users\\User\\Desktop\\aa.xlsx')
-    sheet = wb.active
-    skip_first_row = True
-    for row in sheet.iter_rows(values_only=True):
-        if skip_first_row:
-            skip_first_row = False
-            continue
-        description, photo, urls = row[:3]
-    typee = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    textile = types.KeyboardButton('Текстиль')
-    decor_home = types.KeyboardButton('декор для дома')
-    menu = types.KeyboardButton('Главное меню')
-    typee.add(textile, decor_home)
-    typee.add(menu)
-    if download_photo(photo):
-        with open(photo_path, 'rb') as photo:
-            bot.send_photo(dishe.chat.id, photo, caption=f'{description}\n\n{urls}', reply_markup=typee)
-
-    os.remove(photo_path)
+def handle_dishes(message):
+    dishes(message)
 
 
-
-bot.infinity_polling()
-
+if __name__ == '__main__':
+    bot.polling(none_stop=True)
