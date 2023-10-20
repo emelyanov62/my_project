@@ -1,7 +1,7 @@
 from telebot import types
 import openpyxl
 import os
-from m_token import tokens
+from teleYandex.m_token import tokens
 import requests
 
 bot = tokens()

@@ -1,7 +1,7 @@
 from telebot import types
 import openpyxl
 import os
-from m_token import tokens
+from teleYandex.m_token import tokens
 import requests
 
 bot = tokens()
@@ -19,7 +19,7 @@ def download_photo(url):
 
 
 
-@bot.message_handler(func=lambda categ: categ.text == 'ДДекор для дома')
+@bot.message_handler(func=lambda categ: categ.text == 'Декор для дома')
 def home_in_decor(homes_decor):  #Декор для дома
     global photo, description, urls
     wb = openpyxl.load_workbook('C:\\Users\\User\\Desktop\\aa.xlsx')

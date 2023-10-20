@@ -18,9 +18,8 @@ def download_photo(url):
         return False
 
 
-
-@bot.message_handler(func=lambda categ: categ.text == 'Гостиная')
-def living_rooms(living_roo):  #Гостиная
+@bot.message_handler(func=lambda categ: categ.text == 'Спальня')
+def bedrooms(bedroo):  #Спальня
     global photo, description, urls
     wb = openpyxl.load_workbook('C:\\Users\\User\\Desktop\\aa.xlsx')
     sheet = wb.active
@@ -31,13 +30,13 @@ def living_rooms(living_roo):  #Гостиная
             continue
         description, photo, urls = row[:3]
     typee = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    living_room = types.KeyboardButton('Гостиная')
     kitchen = types.KeyboardButton('Кухня')
-    bedroom = types.KeyboardButton('Спальня')
     menu = types.KeyboardButton('Главное меню')
-    typee.add(kitchen, bedroom)
+    typee.add(living_room, kitchen)
     typee.add(menu)
     if download_photo(photo):
         with open(photo_path, 'rb') as photo:
-            return bot.send_photo(living_roo.chat.id, photo, caption=f'{description}\n\n{urls}', reply_markup=typee)
+            return bot.send_photo(bedroo.chat.id, photo, caption=f'{description}\n\n{urls}', reply_markup=typee)
 
     os.remove(photo_path)
