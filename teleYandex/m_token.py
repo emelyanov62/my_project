@@ -1,5 +1,5 @@
 import telebot
 
 def tokens():
-    bot = telebot.TeleBot('6663362171:AAG-8uH5PixQQh7d_fzyABP4RViU6Fn7EMs')
+    bot = telebot.TeleBot('6735394375:AAHc_hJoYDxbL9O1pDhy2L2B4DLSiaaBKJE')
     return bot
