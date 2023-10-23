@@ -32,25 +32,25 @@ def start(star):
 
 @bot.message_handler(func=lambda message: message.text == 'Главное меню')
 def return_to_main_menu(message):
-    typee = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    type = types.ReplyKeyboardMarkup(resize_keyboard=True)
     home_decors = types.KeyboardButton('Домашний декор')
-    furnitures = types.KeyboardButton('Мебель')
+    furniture = types.KeyboardButton('Мебель')
     smart_houses = types.KeyboardButton('Умный дом')
     electronics = types.KeyboardButton('Электроника')
-    typee.add(home_decors, furnitures)
-    typee.add(smart_houses, electronics)
+    type.add(home_decors, furniture)
+    type.add(smart_houses, electronics)
     bot.send_message(message.chat.id, f'Выберите нужную категорию', reply_markup=type)
 
 
 @bot.message_handler(func=lambda star: star.text == 'Домашний декор')
 def home_decor(decor):
-    typ = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    dishe = types.KeyboardButton('Посуда')
-    textil = types.KeyboardButton('Текстиль')
+    type = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    dishes = types.KeyboardButton('Посуда')
+    textile = types.KeyboardButton('Текстиль')
     decor_home = types.KeyboardButton('Декор для дома')
     menu = types.KeyboardButton('Главное меню')
-    typ.add(dishe, textil)
-    typ.add(decor_home, menu)
+    type.add(dishes, textile)
+    type.add(decor_home, menu)
     bot.send_message(decor.chat.id, f'Вы нахидитесь в категории '
                                     f'Домашний декор, какие товары хотите '
                                     f'посмотреть?', reply_markup=type)
@@ -73,13 +73,13 @@ def home_decor_start(message):
 
 @bot.message_handler(func=lambda star: star.text == 'Мебель')
 def furniture(furnitur):
-    tye = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    type = types.ReplyKeyboardMarkup(resize_keyboard=True)
     living_room = types.KeyboardButton('Гостиная')
     kitchen = types.KeyboardButton('Кухня')
     bedroom = types.KeyboardButton('Спальня')
     menu = types.KeyboardButton('Главное меню')
-    tye.add(living_room, kitchen)
-    tye.add(bedroom, menu)
+    type.add(living_room, kitchen)
+    type.add(bedroom, menu)
     bot.send_message(furnitur.chat.id, f'Вы нахидитесь в категории '
                                        f'Мебель, какие товары хотите '
                                        f'посмотреть?', reply_markup=type)
@@ -102,18 +102,18 @@ def kitchens_start(message):
 
 @bot.message_handler(func=lambda categ: categ.text == 'Умный дом')
 def smart_house_start(message):
-    tpe = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    type = types.ReplyKeyboardMarkup(resize_keyboard=True)
     menu = types.KeyboardButton('Главное меню')
-    tpe.add(menu)
+    type.add(menu)
     bot.send_message(message.chat.id, f'Вы нахидитесь в категории Умный дом', reply_markup=type)
     home_decor_star(message)
 
 
 @bot.message_handler(func=lambda categ: categ.text == 'Электроника')
 def electronic_start(message):
-    ype = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    type = types.ReplyKeyboardMarkup(resize_keyboard=True)
     menu = types.KeyboardButton('Главное меню')
-    ype.add(menu)
+    type.add(menu)
     bot.send_message(message.chat.id, f'Вы нахидитесь в категории Электроника', reply_markup=type)
     electroni(message)
 
