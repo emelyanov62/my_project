@@ -28,7 +28,7 @@ def home_decor_star(home_decor_starts):  #Умный дом
         if skip_first_row:
             skip_first_row = False
             continue
-        description, photo, urls = row[:3]
+    description, photo, urls = row[:3]
     typee = types.ReplyKeyboardMarkup(resize_keyboard=True)
     menu = types.KeyboardButton('Главное меню')
     typee.add(menu)

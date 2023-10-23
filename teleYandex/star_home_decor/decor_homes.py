@@ -29,7 +29,7 @@ def home_in_decor(homes_decor):  #Декор для дома
         if skip_first_row:
             skip_first_row = False
             continue
-        description, photo, urls = row[:3]
+    description, photo, urls = row[:3]
     typee = types.ReplyKeyboardMarkup(resize_keyboard=True)
     textile = types.KeyboardButton('Текстиль')
     dishes = types.KeyboardButton('Посуда')

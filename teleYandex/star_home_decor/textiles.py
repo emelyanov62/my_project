@@ -28,7 +28,7 @@ def textile(textil):  #текстиль
         if skip_first_row:
             skip_first_row = False
             continue
-        description, photo, urls = row[:3]
+    description, photo, urls = row[:3]
     typee = types.ReplyKeyboardMarkup(resize_keyboard=True)
     dishes = types.KeyboardButton('Посуда')
     decor_home = types.KeyboardButton('Декор для дома')

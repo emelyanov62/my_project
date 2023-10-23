@@ -28,7 +28,7 @@ def dishes(dishe):  #посуда
         if skip_first_row:
             skip_first_row = False
             continue
-        description, photo, urls = row[:3]
+    description, photo, urls = row[:3]
     typee = types.ReplyKeyboardMarkup(resize_keyboard=True)
     textile = types.KeyboardButton('Текстиль')
     decor_home = types.KeyboardButton('Декор для дома')

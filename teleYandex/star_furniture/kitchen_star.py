@@ -29,7 +29,7 @@ def kitchens(kitche):  #кухня
         if skip_first_row:
             skip_first_row = False
             continue
-        description, photo, urls = row[:3]
+    description, photo, urls = row[:3]
     typee = types.ReplyKeyboardMarkup(resize_keyboard=True)
     living_room = types.KeyboardButton('Гостиная')
     bedroom = types.KeyboardButton('Спальня')
